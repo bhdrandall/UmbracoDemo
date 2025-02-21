@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Your Site Name</title>
+    
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- You can add more CSS and JavaScript references here -->
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/GenericText">Generic Text</a></li>
+                <!-- Add more navigation items as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Your Site Name</p>
+    </footer>
+
+    <!-- Add your JavaScript references here -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> 
