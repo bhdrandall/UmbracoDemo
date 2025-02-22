@@ -18,14 +18,28 @@ using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels
 {
-	/// <summary>Contact</summary>
-	[PublishedModel("contact")]
-	public partial class Contact : PublishedContentModel, IBanner, IMetadata
+	// Mixin Content Type with alias "metadata"
+	/// <summary>Metadata</summary>
+	public partial interface IMetadata : IPublishedElement
+	{
+		/// <summary>Include In Search</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		bool IncludeInSearch { get; }
+
+		/// <summary>Page Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string PageTitle { get; }
+	}
+
+	/// <summary>Metadata</summary>
+	[PublishedModel("metadata")]
+	public partial class Metadata : PublishedElementModel, IMetadata
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
-		public new const string ModelTypeAlias = "contact";
+		public new const string ModelTypeAlias = "metadata";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
@@ -34,14 +48,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 			=> PublishedModelUtility.GetModelContentType(publishedSnapshotAccessor, ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedSnapshotAccessor publishedSnapshotAccessor, Expression<Func<Contact, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(IPublishedSnapshotAccessor publishedSnapshotAccessor, Expression<Func<Metadata, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(publishedSnapshotAccessor), selector);
 #pragma warning restore 0109
 
 		private IPublishedValueFallback _publishedValueFallback;
 
 		// ctor
-		public Contact(IPublishedContent content, IPublishedValueFallback publishedValueFallback)
+		public Metadata(IPublishedElement content, IPublishedValueFallback publishedValueFallback)
 			: base(content, publishedValueFallback)
 		{
 			_publishedValueFallback = publishedValueFallback;
@@ -50,42 +64,15 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// Form
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
-		[ImplementPropertyType("form")]
-		public virtual global::System.Nullable<global::System.Guid> Form => this.Value<global::System.Nullable<global::System.Guid>>(_publishedValueFallback, "form");
-
-		///<summary>
-		/// Banner Description
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("bannerDescription")]
-		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString BannerDescription => global::Umbraco.Cms.Web.Common.PublishedModels.Banner.GetBannerDescription(this, _publishedValueFallback);
-
-		///<summary>
-		/// Banner Image
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("bannerImage")]
-		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops BannerImage => global::Umbraco.Cms.Web.Common.PublishedModels.Banner.GetBannerImage(this, _publishedValueFallback);
-
-		///<summary>
-		/// Banner Title
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
-		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("bannerTitle")]
-		public virtual string BannerTitle => global::Umbraco.Cms.Web.Common.PublishedModels.Banner.GetBannerTitle(this, _publishedValueFallback);
-
-		///<summary>
 		/// Include In Search
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
 		[ImplementPropertyType("includeInSearch")]
-		public virtual bool IncludeInSearch => global::Umbraco.Cms.Web.Common.PublishedModels.Metadata.GetIncludeInSearch(this, _publishedValueFallback);
+		public virtual bool IncludeInSearch => GetIncludeInSearch(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Include In Search</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		public static bool GetIncludeInSearch(IMetadata that, IPublishedValueFallback publishedValueFallback) => that.Value<bool>(publishedValueFallback, "includeInSearch");
 
 		///<summary>
 		/// Page Title
@@ -93,6 +80,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("pageTitle")]
-		public virtual string PageTitle => global::Umbraco.Cms.Web.Common.PublishedModels.Metadata.GetPageTitle(this, _publishedValueFallback);
+		public virtual string PageTitle => GetPageTitle(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Page Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetPageTitle(IMetadata that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "pageTitle");
 	}
 }

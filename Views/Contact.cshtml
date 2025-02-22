@@ -1,6 +1,17 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Contact>
-@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Forms.Web.Helpers;
+@using UmbracoDemo.ViewModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Contact>
 @{
-	ViewData["Title"] = Model.Name;
+	ViewData["Title"] = Model.PageTitle;
 }
+
+	@await Html.PartialAsync("~/Views/Partials/_Banner.cshtml", new BannerViewModel
+{
+	BannerTitle = Model.BannerTitle,
+	BannerDescription = Model.BannerDescription,
+	BannerImage = Model.BannerImage
+})
+<div class="container py-4">
+	@await Component.InvokeAsync("RenderForm", new { formId = Model.Form, FormTheme = "bootstrap3-horizontal", ExcludeScripts = "1" })
+</div>

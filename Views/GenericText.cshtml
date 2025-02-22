@@ -1,6 +1,15 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.GenericText>
-@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using UmbracoDemo.ViewModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<GenericText>
 @{
-	ViewData["Title"] = Model.Name;
+	ViewData["Title"] = Model.PageTitle;
 }
+
+@await Html.PartialAsync("~/Views/Partials/_Banner.cshtml", new BannerViewModel
+{
+	BannerTitle = Model.BannerTitle,
+	BannerDescription = Model.BannerDescription,
+	BannerImage = Model.BannerImage
+})
+
+@Html.GetBlockListHtml(Model.Blocks)

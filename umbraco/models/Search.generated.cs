@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Search</summary>
 	[PublishedModel("search")]
-	public partial class Search : PublishedContentModel
+	public partial class Search : PublishedContentModel, IMetadata
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -48,5 +48,20 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		}
 
 		// properties
+
+		///<summary>
+		/// Include In Search
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		[ImplementPropertyType("includeInSearch")]
+		public virtual bool IncludeInSearch => global::Umbraco.Cms.Web.Common.PublishedModels.Metadata.GetIncludeInSearch(this, _publishedValueFallback);
+
+		///<summary>
+		/// Page Title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("pageTitle")]
+		public virtual string PageTitle => global::Umbraco.Cms.Web.Common.PublishedModels.Metadata.GetPageTitle(this, _publishedValueFallback);
 	}
 }

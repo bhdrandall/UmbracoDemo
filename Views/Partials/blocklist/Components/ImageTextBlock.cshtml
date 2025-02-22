@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var content = (ContentModels.ImageTextBlock)Model.Content;
+}
+
+<div class="mt-4 mb-4 bg-secondary bg-opacity-50">
+    <div class="container d-flex align-items-center">
+        <div>
+            @Html.Raw(content.Text)
+        </div>
+        <div>
+        @if (content.Image != null)
+        {
+            <img src="@content.Image.Url()"
+                 class="img-fluid"
+                 style="max-height: 500px; object-fit: cover; margin-left: 20px;" />
+        }
+        </div>
+    </div>
+</div>

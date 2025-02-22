@@ -1,0 +1,20 @@
+@using UmbracoDemo.ViewModels
+@model BannerViewModel
+
+<div class="banner mb-4 bg-dark bg-opacity-50" style="background-image: url('@Model.BannerImage?.Url()'); background-size: cover; background-position: center;">
+		<div class="banner-content p-4 text-white" style="background-color: rgba(0, 0, 0, 0.5);">
+			<div class="container">
+				@if (!string.IsNullOrEmpty(Model.BannerTitle))
+				{
+					<h1 class="display-4">@Model.BannerTitle</h1>
+				}
+
+			@if (Model.BannerDescription != null)
+			{
+				<div class="banner-description lead">
+					@Html.Raw(Model.BannerDescription)
+				</div>
+			}
+		</div>
+	</div>
+</div> 

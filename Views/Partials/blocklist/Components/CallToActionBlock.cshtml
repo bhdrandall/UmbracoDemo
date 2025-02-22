@@ -1,0 +1,23 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    var content = (ContentModels.CallToActionBlock)Model.Content;
+}
+
+<div class="banner mt-4 mb-4 bg-primary bg-opacity-50" style="background-image: url('@content.BannerImage?.Url()'); background-size: cover; background-position: center;">
+		<div class="banner-content p-4 text-white" style="background-color: rgba(0, 0, 0, 0.5);">
+			<div class="container">
+				@if (!string.IsNullOrEmpty(content.BannerTitle))
+				{
+					<h1 class="display-4">@content.BannerTitle</h1>
+				}
+
+			@if (content.BannerDescription != null)
+			{
+				<div class="banner-description lead">
+					@Html.Raw(content.BannerDescription)
+				</div>
+			}
+		</div>
+	</div>
+</div> 

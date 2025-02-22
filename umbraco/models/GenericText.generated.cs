@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Generic Text</summary>
 	[PublishedModel("genericText")]
-	public partial class GenericText : PublishedContentModel, IBanner
+	public partial class GenericText : PublishedContentModel, IBanner, IMetadata
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -80,5 +80,20 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("bannerTitle")]
 		public virtual string BannerTitle => global::Umbraco.Cms.Web.Common.PublishedModels.Banner.GetBannerTitle(this, _publishedValueFallback);
+
+		///<summary>
+		/// Include In Search
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		[ImplementPropertyType("includeInSearch")]
+		public virtual bool IncludeInSearch => global::Umbraco.Cms.Web.Common.PublishedModels.Metadata.GetIncludeInSearch(this, _publishedValueFallback);
+
+		///<summary>
+		/// Page Title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "13.6.0+b9837ac")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("pageTitle")]
+		public virtual string PageTitle => global::Umbraco.Cms.Web.Common.PublishedModels.Metadata.GetPageTitle(this, _publishedValueFallback);
 	}
 }
