@@ -21,18 +21,22 @@
         <nav class="navbar navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand fs-1" href="/">Ben Randall - Umbraco Demo</a>
-                <div class="navbar">
-                    <ul class="navbar-nav">
+                <div class="navbar d-flex">
+                    <ul class="navbar m-4">
                         @if (navItems != null)
                         {
                             foreach (var item in navItems)
                             {
-                                <li class="nav-item">
+                                <li class="nav-item d-inline ms-2">
                                     <a class="nav-link text-light" href="@item.Url()">@item.Name()</a>
                                 </li>
                             }
                         }
                     </ul>
+                    <form class="d-flex" action="/search" method="get">
+                        <input class="form-control me-2" type="search" name="query" placeholder="Search..." aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>

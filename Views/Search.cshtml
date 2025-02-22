@@ -1,5 +1,81 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+﻿@using Umbraco.Cms.Core.Services
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Examine;
+@using Examine.Search;
+@inject IExamineManager ExamineManager
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Search>
 @{
 	ViewData["Title"] = Model.PageTitle;
+
+	// Get the search query from the URL
+	var searchQuery = Context.Request.Query["query"].ToString();
+	var searchResults = Enumerable.Empty<ISearchResult>();
+
+	if (!string.IsNullOrWhiteSpace(searchQuery))
+	{
+		// Get the external index searcher
+		if (ExamineManager.TryGetIndex("ExternalIndex", out var index))
+		{
+			var searcher = index.Searcher;
+
+			// Perform the search
+			var query = searcher.CreateQuery("content")
+				.Field("nodeName", searchQuery.Fuzzy(0.5f))
+				.Or()
+				.Field("content", searchQuery.Fuzzy(0.5f))
+				.And()
+				.Field("includeInSearch", "true");
+
+			searchResults = query.Execute();
+		}
+	}
 }
+
+<div class="container">
+	<div class="mt-4 mb-4">
+		<h1>@Model.PageTitle</h1>
+
+		<form method="get" action="/search" class="mb-4">
+			<div class="input-group">
+				<input type="text"
+					   name="query"
+					   class="form-control"
+					   value="@searchQuery"
+					   placeholder="Enter your search terms...">
+				<button type="submit" class="btn btn-primary">Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="mt-4 mb-4">
+	@if (!string.IsNullOrWhiteSpace(searchQuery))
+	{
+		<div class="search-results">
+			<h2>Search Results for "@searchQuery"</h2>
+
+			@if (searchResults.Any())
+			{
+				foreach (var result in searchResults)
+				{
+					<div class="search-result">
+						<h3>
+							@{
+								var contentId = int.Parse(result.Id); // Parse the Id from the search result
+								var publishedContent = Umbraco.Content(contentId); // Get the IPublishedContent
+							}
+							<a href="@publishedContent?.Url()">@result.Values["nodeName"]</a>
+						</h3>
+						@if (result.Values.ContainsKey("excerpt"))
+						{
+							<p>@result.Values["excerpt"]</p>
+						}
+					</div>
+				}
+			}
+			else
+			{
+				<p>No results found for your search.</p>
+			}
+		</div>
+	}
+	</div>
+</div>
