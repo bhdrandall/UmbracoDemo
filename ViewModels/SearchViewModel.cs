@@ -1,7 +1,5 @@
-﻿using Examine;
-using Umbraco.Cms.Core.Models.PublishedContent;
+﻿using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Web.Common.PublishedModels;
-using UmbracoDemo.Models;
 
 namespace UmbracoDemo.ViewModels
 {
@@ -12,6 +10,12 @@ namespace UmbracoDemo.ViewModels
 		}
 
 		public string? SearchQuery { get; set; }
-		public IEnumerable<ISearchResult> SearchResults { get; set; }
+		public IEnumerable<SiteSearchResult> SearchResults { get; set; }
+	}
+
+	public class SiteSearchResult
+	{
+		public string Url { get; set; }
+		public string Title { get; set; }
 	}
 }
