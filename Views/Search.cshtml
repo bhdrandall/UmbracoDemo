@@ -2,33 +2,11 @@
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @using Examine;
 @using Examine.Search;
-@inject IExamineManager ExamineManager
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Search>
+@using UmbracoDemo.ViewModels
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<SearchViewModel>
 @{
 	ViewData["Title"] = Model.PageTitle;
-
-	// Get the search query from the URL
-	var searchQuery = Context.Request.Query["query"].ToString();
-	var searchResults = Enumerable.Empty<ISearchResult>();
-
-	if (!string.IsNullOrWhiteSpace(searchQuery))
-	{
-		// Get the external index searcher
-		if (ExamineManager.TryGetIndex("ExternalIndex", out var index))
-		{
-			var searcher = index.Searcher;
-
-			// Perform the search
-			var query = searcher.CreateQuery("content")
-				.Field("nodeName", searchQuery.Fuzzy(0.5f))
-				.Or()
-				.Field("content", searchQuery.Fuzzy(0.5f))
-				.And()
-				.Field("includeInSearch", "true");
-
-			searchResults = query.Execute();
-		}
-	}
 }
 
 <div class="container">
@@ -40,21 +18,21 @@
 				<input type="text"
 					   name="query"
 					   class="form-control"
-					   value="@searchQuery"
+					   value="@Model.SearchQuery"
 					   placeholder="Enter your search terms...">
 				<button type="submit" class="btn btn-primary">Search</button>
 			</div>
 		</form>
 	</div>
 	<div class="mt-4 mb-4">
-	@if (!string.IsNullOrWhiteSpace(searchQuery))
+	@if (!string.IsNullOrWhiteSpace(Model.SearchQuery?.ToString())) // Check the passed search query
 	{
 		<div class="search-results">
-			<h2>Search Results for "@searchQuery"</h2>
+			<h2>Search Results for "@Model.SearchQuery"</h2>
 
-			@if (searchResults.Any())
+			@if (Model.SearchResults != null && Model.SearchResults.Any())
 			{
-				foreach (var result in searchResults)
+				foreach (var result in Model.SearchResults)
 				{
 					<div class="search-result">
 						<h3>
