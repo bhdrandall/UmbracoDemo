@@ -28,7 +28,7 @@ It is not necessary to run webpack to start the site as the built styles are sou
 2. Install the necessary npm packages if you haven't done so:
  - npm install
 3. Start Webpack to build the styles:
- - npm run build
+ - npm run build   
 (optional) Start Webpack watch:
  - npm run start
 
