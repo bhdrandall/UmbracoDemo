@@ -1,6 +1,6 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @using UmbracoDemo.ViewModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Home>
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<HomeViewModel>
 @{
 	ViewData["Title"] = Model.PageTitle;
 }
@@ -12,7 +12,6 @@
 	BannerImage = Model.BannerImage
 })
 
+@Html.Partial("_SpaceflightCards", Model.SpaceflightApiResponse)
+
 @Html.GetBlockListHtml(Model.Blocks)
-
-
-
