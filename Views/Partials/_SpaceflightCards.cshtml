@@ -1,13 +1,28 @@
 ﻿@model UmbracoDemo.Models.SpaceflightApiResponse
+@using ImageSharpCommunity.Providers.Remote;
+@using ImageSharpCommunity.Providers.Remote.Configuration;
+@using Microsoft.Extensions.Options
+@inject IOptions<RemoteImageProviderOptions> RemoteImageProviderOptions;
 
 <div class="container mb-4 card-grid">
-    @foreach (var article in Model.Results)
-    {
-        <div class="card">
-            <img src="@article.Image_url" alt="@article.Title" />
-            <h3>@article.Title</h3>
-            <p>@article.Summary</p>
-            <a href="@article.Url">Read more</a>
-        </div>
-    }
+	@if (Model != null && Model.Results != null)
+	{
+		foreach (var article in Model.Results)
+		{
+			var remoteUri = new Uri(article.Image_url).GetRemoteImageProviderUrl(RemoteImageProviderOptions.Value);
+
+			<div class="card">
+				<img src="@remoteUri" alt="@article.Title" imagesharp-quality="50" />
+				<h3>@article.Title</h3>
+				<p>@article.Summary</p>
+				<a href="@article.Url">Read more</a>
+			</div>
+		}
+	} else
+	{
+		<div class="card">
+			<h3>Could not reach the Spaceflight API 🚀</h3>
+			<p>Please try again later...</p>
+		</div>
+	}
 </div>

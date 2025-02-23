@@ -1,3 +1,5 @@
+using SixLabors.ImageSharp.Web.DependencyInjection;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.CreateUmbracoBuilder()
@@ -11,6 +13,7 @@ WebApplication app = builder.Build();
 
 await app.BootUmbracoAsync();
 
+app.UseImageSharp();
 
 app.UseUmbraco()
     .WithMiddleware(u =>

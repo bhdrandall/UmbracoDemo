@@ -8,11 +8,13 @@ namespace UmbracoDemo.Services
 	{
 		private readonly HttpClient _httpClient;
 		private readonly IAppPolicyCache _runtimeCache;
+		private readonly ILogger _logger;
 
-		public SpaceflightApiService(HttpClient httpClient, AppCaches appCaches)
+		public SpaceflightApiService(HttpClient httpClient, AppCaches appCaches, ILogger<SpaceflightApiService> logger)
 		{
 			_httpClient = httpClient;
 			_runtimeCache = appCaches.RuntimeCache;
+			_logger = logger;
 		}
 
 		public async Task<SpaceflightApiResponse> GetAll()
@@ -20,20 +22,30 @@ namespace UmbracoDemo.Services
 			// Define the API endpoint
 			var url = "https://api.spaceflightnewsapi.net/v4/articles/";
 
-			return await _runtimeCache.GetCacheItem("SpaceflightArticles", async () =>
+			if (_runtimeCache == null)
 			{
-				//handle broken/down api
+				throw new InvalidOperationException("RuntimeCache is not initialized.");
+			}
+
+            if (_httpClient == null)
+            {
+                // Handle the null case, e.g., throw an exception or return a default response
+                throw new InvalidOperationException("HttpClient is not initialized.");
+            }
+
+            return await _runtimeCache.GetCacheItem("SpaceflightArticles", async () =>
+			{
 				try
 				{
-					return await _httpClient.GetFromJsonAsync<SpaceflightApiResponse>(url);
+					var response = await _httpClient.GetFromJsonAsync<SpaceflightApiResponse>(url);
+					return response ?? throw new InvalidOperationException("Failed to retrieve data from the Spaceflight API.");
 				}
 				catch (Exception ex)
 				{
-					// Log the exception or handle it as needed
-					// For example, return a default response or null
-					return null; // or handle accordingly
-				}
-			}, timeout: TimeSpan.FromMinutes(1));
+					_logger.LogError("Failed to retrieve data from the Spaceflight API.", ex);
+					return new SpaceflightApiResponse();
+                }
+			}, timeout: TimeSpan.FromMinutes(5));
 		}
 	}
 }
