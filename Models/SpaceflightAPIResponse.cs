@@ -14,11 +14,11 @@
 		public string Title { get; set; }
 		public List<Author> Authors { get; set; }
 		public string Url { get; set; }
-		public string ImageUrl { get; set; }
-		public string NewsSite { get; set; }
+		public string Image_url { get; set; }
+		public string News_site { get; set; }
 		public string Summary { get; set; }
-		public DateTime PublishedAt { get; set; }
-		public DateTime UpdatedAt { get; set; }
+		public DateTime Published_at { get; set; }
+		public DateTime Updated_at { get; set; }
 		public bool Featured { get; set; }
 		public List<object> Launches { get; set; }
 		public List<object> Events { get; set; }

@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using Umbraco.Cms.Core.Cache;
+﻿using Umbraco.Cms.Core.Cache;
 using UmbracoDemo.Models;
 using UmbracoDemo.Services.Interfaces;
 
@@ -25,9 +22,18 @@ namespace UmbracoDemo.Services
 
 			return await _runtimeCache.GetCacheItem("SpaceflightArticles", async () =>
 			{
-				return await _httpClient.GetFromJsonAsync<SpaceflightApiResponse>(url);
+				//handle broken/down api
+				try
+				{
+					return await _httpClient.GetFromJsonAsync<SpaceflightApiResponse>(url);
+				}
+				catch (Exception ex)
+				{
+					// Log the exception or handle it as needed
+					// For example, return a default response or null
+					return null; // or handle accordingly
+				}
 			}, timeout: TimeSpan.FromMinutes(1));
-
 		}
 	}
 }
