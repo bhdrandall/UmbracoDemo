@@ -23,7 +23,7 @@ This project can be started using either the terminal or from Visual Studio.
 3. Select Import Everything
 
 ### (Dev) Starting Webpack
-This is not necessary to run webpack as the built styles are source controlled
+It is not necessary to run webpack to start the site as the built styles are source controlled
 1. Open a new terminal window and navigate to the project directory.
 2. Install the necessary npm packages if you haven't done so:
  - npm install
