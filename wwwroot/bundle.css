@@ -11847,3 +11847,21 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Adjust spacing between cards */
+}
+
+.card {
+  flex: 1 1 calc(33.333% - 16px); /* 3 cards per row with gap */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
