@@ -18,6 +18,11 @@
 					@Html.Raw(content.BannerDescription)
 				</div>
 			}
+			
+			@if (!string.IsNullOrEmpty(content.ButtonText) && content.CallToActionLink != null)
+			{
+				<a href="@content.CallToActionLink.Url" class="btn btn-light mt-3">@content.ButtonText</a>
+			}
 		</div>
 	</div>
 </div> 
