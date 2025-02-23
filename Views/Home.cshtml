@@ -12,4 +12,4 @@
 	BannerImage = Model.BannerImage
 })
 
-@Html.Partial("_SpaceflightCards", Model.SpaceflightApiResponse)
+@await Html.PartialAsync("_SpaceflightCards", Model.SpaceflightApiResponse)
